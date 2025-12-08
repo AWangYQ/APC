@@ -76,10 +76,10 @@ class Adapter(nn.Module):
     def forward(self, x):
         return self.fc(self.IN(x))
 
-class ClipAdapter(nn.Module):
+class APC(nn.Module):
 
     def __init__(self, cfg, num_classes, camera_num, view_num, adapter):
-        super(ClipAdapter, self).__init__()
+        super(APC, self).__init__()
 
         self.logger = logging.getLogger("ReIDAdapter.Model")
         self.in_planes = 768                 # 特征向量的维度
