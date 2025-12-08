@@ -273,24 +273,6 @@ def do_train(cfg,
     
     scaler = amp.GradScaler()   # 防止反向传播中的数值不稳定性问题，梯度爆炸，梯度消失
     eval = inference(cfg, num_query)
-    #q_schedule = cosine_scheduler(0.96, 1, 120, len(train_loader)//50)
-    #text = []
-    #for attr in attribute_list:
-    #    attr_texts = [template.format(attr) for template in imagenet_templates]
-    #    text.extend(attr_texts)
-    #text = clip.tokenize(text).to(device)
-
-    #with torch.no_grad():
-    #    text_features = model.text_encoder(text=text)
-
-    #pretrain_instances_logits = torch.load(cfg.MODEL.LOGITS_FILE2)
-    #pretrain_class_logits = torch.load(cfg.MODEL.LOGITS_FILE1)
-    #pre_log_matrix = []
-    #for _, tensor in pretrain_class_logits.items():
-    #    pre_log_matrix.append(tensor)
-    #pre_log_matrix = torch.stack(pre_log_matrix, 0).float().cuda()
-    #eval.calcultion(cfg, query_loader, gallery_loader, [model], device, epoch=0)
-    #import ipdb; ipdb.set_trace()
     all_start_time = time.monotonic()  # 开始时间
     xent = SupConLoss(local_rank)
     q_model.eval()
@@ -348,67 +330,15 @@ def do_train(cfg,
             else:
                 target_view = None
             with amp.autocast(enabled=True):
-                #combine_feat, xproj, logits_0 = q_model.update_prompt(img, prompt_learner)
-                #align_loss = xent(combine_feat, xproj_classifer, target, pids)
-                #score_0 = (combine_feat @ text_classifer.t()) / 0.007
-                #ce_loss = F.cross_entropy(score_0, target)
-                #align_loss = align_loss + ce_loss        
+
  
                 score, feat, combine_feat, orthogonality_loss = model(img, cam_label=target_cam, view_label=target_view, classifer=classifer,text_classifier = text_classifer) 
-                #align_loss = xent(combine_feat, xproj_classifer, target, pids)
                 align_loss = 0.1 * orthogonality_loss
-                # pred_logits = pred_logits.reshape(-1, 71, 80).mean(2)
-                # pred_logits = pred_logits / pred_logits.norm(dim=-1, keepdim=True)
-                # class_logits = class_logits / class_logits.norm(dim=-1, keepdim=True)
-                # align_loss = xent(pred_logits, class_logits, vid, vid)
-                # labels.append(vid)
-                # text_feats.append(feat[1].cpu())
-                # img_feats.append(feat[0].cpu())
-                # pred_gender_logits = norm(pred_logits[:,:2],cfg)
-                # gender_logits = norm(logits[:,:2],cfg)
-                # kl1 = F.kl_div(torch.log(pred_gender_logits), gender_logits.float().cuda(), reduction='batchmean')
-
-                # pred_age_logits = norm(pred_logits[:,2:6],cfg)
-                # age_logits = norm(logits[:,2:6],cfg)
-                # kl2 = F.kl_div(torch.log(pred_age_logits), age_logits.float().cuda(), reduction='batchmean')
-
-                # pred_trousers_logits =  norm(pred_logits[:,6:46],cfg)
-                # trousers_logits =  norm(logits[:,6:46],cfg)
-                # kl3 = F.kl_div(torch.log(pred_trousers_logits), trousers_logits.float().cuda(), reduction='batchmean')
-
-                # pred_coat_logits =  norm(pred_logits[:,46:94],cfg)
-                # coat_logits =  norm(logits[:,46:94],cfg)
-                # kl4 = F.kl_div(torch.log(pred_coat_logits), coat_logits.float().cuda(), reduction='batchmean')
-
-                # pred_hair_logits =  norm(pred_logits[:,94:104],cfg)
-                # hair_logits =  norm(logits[:,94:104],cfg)
-                # kl5 = F.kl_div(torch.log(pred_hair_logits), hair_logits.float().cuda(), reduction='batchmean')
-
-                # pred_bag_logits =  norm(pred_logits[:,104:121],cfg)
-                # bag_logits =  norm(logits[:,104:121],cfg)
-                # kl6 = F.kl_div(torch.log(pred_bag_logits), bag_logits.float().cuda(), reduction='batchmean')
-
-                # pred_shoes_logits =  norm(pred_logits[:,121:145],cfg)
-                # shoes_logits =  norm(logits[:,121:145],cfg)
-                # kl7 = F.kl_div(torch.log(pred_shoes_logits), shoes_logits.float().cuda(), reduction='batchmean')
-
-                # pred_hat_logits =  norm(pred_logits[:,145:154],cfg)
-                # hat_logits =  norm(logits[:,145:154],cfg)
-                # kl8 = F.kl_div(torch.log(pred_hat_logits), hat_logits.float().cuda(), reduction='batchmean')
-
-                # pred_glasses_logits =  norm(pred_logits[:,154:],cfg)
-                # glasses_logits =  norm(logits[:,154:],cfg)
-                # kl9 = F.kl_div(torch.log(pred_glasses_logits), glasses_logits.float().cuda(), reduction='batchmean')
-                # kl_loss = kl1 + kl2 + kl3 + kl4 + kl5 + kl6 + kl7 + kl8 + kl9
                 loss = loss_function(score, feat, target, target_cam)                    # 计算损失函数
 
             scaler.scale(loss+align_loss).backward()
             scaler.step(optimizer)          # 加载优化器
             scaler.update()                 # 更新参数
-            #state_dict = q_model.state_dict()
-            #for name, param in model.named_parameters():
-            #    if not (state_dict[name] == param).any():
-            #        print(name)
             if isinstance(score, list):
                 acc = (score[0].max(1)[1] == target).float().mean()  
             else:
@@ -445,18 +375,8 @@ def do_train(cfg,
                 text_classifer = torch.cat(text_centories, 0).to(device).detach()
            
                 with torch.no_grad():
-                    #m = q_schedule[(epoch-1)* 9 + (n_iter+1) // 50]  # momentum parameter
                     for param_q, param_k in zip(model.parameters(), q_model.parameters()):
                         param_k.data.mul_(0.996).add_((1 - 0.996) * param_q.detach().data)
-            
-            #with torch.no_grad():
-            #    q_model.train()
-            #    _, _, pred_logits = q_model(img, cam_label=target_cam, view_label=target_view, classifer=classifier, text_feat = text_features, attr_classifier = attr_classifier)
-            #    #pred_logits = pred_logits.reshape(-1, 4, 71)
-            #    pred_logits = pred_logits.reshape(-1, 71, 80).mean(2)
-            #    pred_logits = pred_logits.reshape(-1, 4, 71).mean(1)
-            #    index = vid[::4]
-            #    pre_log_matrix[index] = pre_log_matrix[index] * 0.8 + 0.2 * pred_logits 
             
             end_time = time.time()
             time_per_batch = (end_time - start_time) / (n_iter + 1)     # 统计完成一次训练迭代需要的时间。
@@ -473,15 +393,9 @@ def do_train(cfg,
 
         # 测试模型
         if epoch % eval_period == 0 or epoch == 1 or (epoch <= 80 and epoch >=60):
-            #logger.info("===============================")
-            #logger.info("Testing the gallery model ....")
-            #query_img_paths, gallery_img_paths, _, _ = eval.calcultion(cfg, query_loader, gallery_loader, [model], device, epoch)
             logger.info("===============================")
             logger.info("Testing the query model ......")
-            eval.calcultion(cfg, query_loader, gallery_loader, [q_model], device, epoch)
-            #logger.info("===============================")
-            #logger.info("Testing cross model ......")
-            #eval.calcultion(cfg, query_loader, gallery_loader, [q_model, model], device, epoch)
+            eval.calcultion(cfg, query_loader, gallery_loader, q_model, device, epoch)
             
         all_end_time = time.monotonic()
         total_time = timedelta(seconds=all_end_time - all_start_time)

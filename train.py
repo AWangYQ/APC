@@ -17,7 +17,7 @@ from Losses.MakeLoss import make_loss
 from solver.MakeOptimizer import make_optimizer, make_prompt_optimizer
 from solver.LrScheduler import WarmupMultiStepLR, CosineLRScheduler
 from Processor.TrainProcessor import do_train
-from Models.ClipBase import PromptLearner
+from Models.APC import PromptLearner
 
 def set_seed(seed):
     torch.manual_seed(seed)

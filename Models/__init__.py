@@ -1,14 +1,9 @@
 from Models.CnnBase import ResNet50
 from Models.VitBase import Vit
-from Models.ClipBase import ClipAdapter
-from Models.SAMAdapter_ReID import SAMAdapterReID
-from Models.ClipBase import PromptLearner
+from Models.APC import APC
 
 __models = {
-    'cnn_base': ResNet50,
-    'vit_base': Vit,
-    'SAMAdapter_ReID': SAMAdapterReID,
-    'clip_adapter': ClipAdapter
+    'APC': APC
 }
 
 def make_model(cfg, num_classes, camera_num, view_num):
