@@ -4,8 +4,6 @@ from datetime import timedelta
 
 import ipdb
 
-from utils.ranking import ranking
-
 from Processor.inference import inference
 
 def do_inference(cfg,

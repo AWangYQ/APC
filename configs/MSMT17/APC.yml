@@ -4,7 +4,7 @@ MODEL:
   METRIC_LOSS_TYPE: 'triplet'
   IF_LABELSMOOTH: 'off'
   IF_WITH_CENTER: 'no'
-  NAME: 'clip_adapter'
+  NAME: 'APC'
   NO_MARGIN: False
   DEVICE_ID: ('0')
   TRANSFORMER_TYPE: 'vit_base_patch16_224_TransReID'
@@ -29,7 +29,7 @@ DATALOADER:
 SOLVER:
   OPTIMIZER_NAME: "Adam"
   BASE_LR: 0.0000075
-  MAX_EPOCHS: 120
+  MAX_EPOCHS: 60
   IMS_PER_BATCH: 64
   WARMUP_METHOD: 'linear'
   LARGE_FC_LR: False
@@ -52,6 +52,6 @@ TEST:
 DATASETS:
    TYPE: 'image'
    NAMES: ('msmt17')
-   ROOT_DIR: ('/home/ubuntun/wyq/dataset/')
-OUTPUT_DIR: '/home/ubuntun/wyq/output/'
+   ROOT_DIR: ('/xxx/datasets/')
+OUTPUT_DIR: '/xxx/output/APC/'
 

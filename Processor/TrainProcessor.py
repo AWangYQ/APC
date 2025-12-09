@@ -10,7 +10,6 @@ import time
 from datetime import timedelta
 from tqdm import tqdm
 import random
-from utils.ranking import ranking
 from utils.meter import AverageMeter
 from Processor.inference import inference
 from Dataset.image.ImageBase import read_image

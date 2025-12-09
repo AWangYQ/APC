@@ -62,20 +62,6 @@ class TextEncoder(nn.Module):
             raise " You need check it out! "
         return x
 
-class Adapter(nn.Module):
-    def __init__(self, c_in, reduction=12):
-        super(Adapter, self).__init__()
-        self.fc = nn.Sequential(
-            nn.Linear(c_in, c_in // reduction, bias=False),
-            nn.ReLU(inplace=True),
-            nn.Linear(c_in // reduction, c_in, bias=False),
-            nn.ReLU(inplace=True)
-        )
-        self.IN = nn.LayerNorm(c_in)
-
-    def forward(self, x):
-        return self.fc(self.IN(x))
-
 class APC(nn.Module):
 
     def __init__(self, cfg, num_classes, camera_num, view_num, adapter):
@@ -120,11 +106,7 @@ class APC(nn.Module):
         clip_model = self.load_clip_to_cpu(self.model_name, self.h_resolution, self.w_resolution, self.vision_stride_size)
         clip_model.to("cuda")
 
-        # 定义 adapter 层
-        if adapter:
-            self.adapter = nn.ModuleList([Adapter(self.in_planes, 4) for _ in range(12)])
-        else:
-            self.adapter = None
+        self.adapter = None
         self.image_encoder = clip_model.visual     # 这里是clip版本的VIT，使用的时候，注意他们用的一些tricks
         self.text_encoder = TextEncoder(clip_model)
         self.logit_scale = clip_model.logit_scale
@@ -152,7 +134,7 @@ class APC(nn.Module):
 
     def load_clip_to_cpu(self, backbone_name, h_resolution, w_resolution, vision_stride_size):
         url = clip._MODELS[backbone_name]
-        model_path = '/home/ubuntun/wyq/pretrain/ViT-B-16.pt'
+        model_path = '/xxx/pretrain/ViT-B-16.pt'
         try:
             # loading JIT archive
             model = torch.jit.load(model_path, map_location="cpu").eval()
@@ -205,19 +187,6 @@ class APC(nn.Module):
         for i in param_dict:
             self.state_dict()[i.replace('module.', '')].copy_(param_dict[i])
         self.logger.info('Loading pretrained model from {}'.format(trained_path))
-    
-    def update_prompt(self, x=None):
-        assert x is not None
-        with torch.no_grad():
-            bn_cls, cls, xproj, xproj_map = self.extract_image(x)
-        prompt_text_feat = self.text_encoder(self.promptlearner(), self.promptlearner.tokenized_prompts)
-        rebuild_feat = self.rebuild_text_feat(prompt_text_feat, xproj_map, self.promptlearner)
-        
-        norm_xproj = xproj / xproj.norm(dim=-1, keepdim=True)
-        
-        norm_text_feat = prompt_text_feat / prompt_text_feat.norm(dim=-1, keepdim=True)
-        norm_rebuild_feat = rebuild_feat / rebuild_feat.norm(dim=-1, keepdim=True)
-        return norm_rebuild_feat, norm_xproj
     
     def qmodel_extract(self, x, prompt_text_feat):
         bn_cls, cls, xproj, xproj_map = self.extract_image(x)

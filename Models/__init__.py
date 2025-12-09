@@ -1,5 +1,3 @@
-from Models.CnnBase import ResNet50
-from Models.VitBase import Vit
 from Models.APC import APC
 
 __models = {
