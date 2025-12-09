@@ -72,6 +72,7 @@ def make_image_dataloader(cfg):
 
     num_workers = cfg.DATALOADER.NUM_WORKERS                                                     # 线程数
     dataset = __factory[cfg.DATASETS.NAMES](root=cfg.DATASETS.ROOT_DIR)                          # 定义数据集
+    test_dataset = __factory[cfg.DATASETS.NAMES](root=cfg.DATASETS.ROOT_DIR)
     train_set = ImageDataset(dataset.train, train_transforms)                                    # 定义训练集
     num_classes = dataset.num_train_pids                                                         # 获取训练集类别总数
     cam_num = dataset.num_train_cams                                                             # 获取训练集相机类别总数（transreid的设置）
@@ -94,8 +95,8 @@ def make_image_dataloader(cfg):
             collate_fn=train_collate_fn
         )
 
-    query_set = ImageDataset(dataset.query, val_transforms)                        # 测试集
-    gallery_set = ImageDataset(dataset.gallery, val_transforms)
+    query_set = ImageDataset(test_dataset.query, val_transforms)                        # 测试集
+    gallery_set = ImageDataset(test_dataset.gallery, val_transforms)
     query_loader = DataLoader(
         query_set, batch_size=cfg.TEST.IMS_PER_BATCH, shuffle=False, num_workers=num_workers,     # 定义测试集迭代器，为了简便这里将query和gallery按先后顺序合并在一起了。
         collate_fn=val_collate_fn
@@ -109,7 +110,7 @@ def make_image_dataloader(cfg):
     for _ in range(11*200):
         train_query_set.append(data_prepare(dataset.id_set, train_transforms))
 
-    return train_loader, query_loader, gallery_loader, len(dataset.query), num_classes, cam_num, view_num, train_query_set
+    return train_loader, query_loader, gallery_loader, len(test_dataset.query), num_classes, cam_num, view_num, train_query_set
 
 
 class ImageData(Dataset):
