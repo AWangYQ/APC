@@ -39,21 +39,21 @@ Object ReID in real-world applications often suffers from domain variations, whe
 
 # Results
 
-![image-20251214213400693](/Users/wangyingquan/Library/Application Support/typora-user-images/image-20251214213400693.png)
+![image-20251214213400693](asset/image-20251214213400693.png)
 
-![image-20251214213433180](/Users/wangyingquan/Library/Application Support/typora-user-images/image-20251214213433180.png)
+![image-20251214213433180](asset/image-20251214213433180.png)
 
-![image-20251214213444917](/Users/wangyingquan/Library/Application Support/typora-user-images/image-20251214213444917.png)
+![image-20251214213444917](asset/image-20251214213444917.png)
 
 # Visualization 
 
-![image-20251214214216063](/Users/wangyingquan/Library/Application Support/typora-user-images/image-20251214214216063.png)
+![image-20251214214216063](asset/image-20251214214216063.png)
 
-![image-20251214214133847](/Users/wangyingquan/Library/Application Support/typora-user-images/image-20251214214133847.png)
+![image-20251214214133847](asset/image-20251214214133847.png)
 
-![image-20251214214230647](/Users/wangyingquan/Library/Application Support/typora-user-images/image-20251214214230647.png)
+![image-20251214214230647](asset/image-20251214214230647.png)
 
-![image-20251214214242530](/Users/wangyingquan/Library/Application Support/typora-user-images/image-20251214214242530.png)
+![image-20251214214242530](asset/image-20251214214242530.png)
 
 # Reproduction
 
