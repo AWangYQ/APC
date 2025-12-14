@@ -4,8 +4,8 @@ MODEL:
   METRIC_LOSS_TYPE: 'triplet'
   IF_LABELSMOOTH: 'off'
   IF_WITH_CENTER: 'no'
-  NAME: 'clip_adapter'
-  NO_MARGIN: True
+  NAME: 'APC'
+  NO_MARGIN: False
   DEVICE_ID: ('0')
   TRANSFORMER_TYPE: 'vit_base_patch16_224_TransReID'
   STRIDE_SIZE: [12, 12]
@@ -24,12 +24,12 @@ INPUT:
 DATALOADER:
   SAMPLER: 'softmax_triplet'
   NUM_INSTANCE: 4
-  NUM_WORKERS: 8
+  NUM_WORKERS: 4
 
 SOLVER:
   OPTIMIZER_NAME: "Adam"
   BASE_LR: 0.0000075
-  MAX_EPOCHS: 200
+  MAX_EPOCHS: 60
   IMS_PER_BATCH: 64
   WARMUP_METHOD: 'linear'
   LARGE_FC_LR: False
@@ -44,15 +44,15 @@ TEST:
   EVAL: True
   IMS_PER_BATCH: 64
   RE_RANKING: False
-  WEIGHT: ''
+  WEIGHT: '/xxx/q_model_120.pth'
   NECK_FEAT: 'before'
   FEAT_NORM: 'yes'
   REPORT_SAMPLE: True
 
 DATASETS:
    TYPE: 'image'
-   NAMES: ('duke')
-   TARGET_NAMES: ('duke')
-   ROOT_DIR: ('/xxx/dataset/reid/')
-OUTPUT_DIR: '/xxx/output'
+   NAMES: ('cuhk03', 'market1501', 'duke')
+   TARGET_NAMES: ('msmt17')
+   ROOT_DIR: ('/xxx/datasets/')
+OUTPUT_DIR: '/xxx/output/APC/'
 

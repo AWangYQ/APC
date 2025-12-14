@@ -72,7 +72,7 @@ def make_image_dataloader(cfg):
 
     num_workers = cfg.DATALOADER.NUM_WORKERS                                                     # 线程数
     dataset = __factory[cfg.DATASETS.NAMES](root=cfg.DATASETS.ROOT_DIR)                          # 定义数据集
-    test_dataset = __factory[cfg.DATASETS.NAMES](root=cfg.DATASETS.ROOT_DIR)
+    test_dataset = __factory[cfg.DATASETS.TARGET_NAMES](root=cfg.DATASETS.ROOT_DIR)
     train_set = ImageDataset(dataset.train, train_transforms)                                    # 定义训练集
     num_classes = dataset.num_train_pids                                                         # 获取训练集类别总数
     cam_num = dataset.num_train_cams                                                             # 获取训练集相机类别总数（transreid的设置）

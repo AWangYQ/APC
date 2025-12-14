@@ -8,7 +8,7 @@ MODEL:
   NO_MARGIN: True
   DEVICE_ID: ('0')
   TRANSFORMER_TYPE: 'vit_base_patch16_224_TransReID'
-  STRIDE_SIZE: [12, 12]
+  STRIDE_SIZE: [16, 16]
   SIE_CAMERA: True
   SIE_COE: 3.0
 
@@ -28,8 +28,8 @@ DATALOADER:
 
 SOLVER:
   OPTIMIZER_NAME: "Adam"
-  BASE_LR: 0.0000075
-  MAX_EPOCHS: 200
+  BASE_LR: 0.000005
+  MAX_EPOCHS: 120
   IMS_PER_BATCH: 64
   WARMUP_METHOD: 'linear'
   LARGE_FC_LR: False
@@ -44,15 +44,14 @@ TEST:
   EVAL: True
   IMS_PER_BATCH: 64
   RE_RANKING: False
-  WEIGHT: ''
+  WEIGHT: '/root/autodl-tmp/output/2023-11-16_17-58-50/clip_adapter_120.pth'
   NECK_FEAT: 'before'
   FEAT_NORM: 'yes'
   REPORT_SAMPLE: True
 
 DATASETS:
    TYPE: 'image'
-   NAMES: ('duke')
-   TARGET_NAMES: ('duke')
+   NAMES: ('cuhk03', 'duke', 'msmt17')
+   TARGET_NAMES: ('marekt1501')
    ROOT_DIR: ('/xxx/dataset/reid/')
 OUTPUT_DIR: '/xxx/output'
-

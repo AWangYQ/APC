@@ -51,7 +51,7 @@ TEST:
 
 DATASETS:
    TYPE: 'image'
-   NAMES: ('duke')
+   NAMES: ('cuhk03', 'market1501', 'msmt17')
    TARGET_NAMES: ('duke')
    ROOT_DIR: ('/xxx/dataset/reid/')
 OUTPUT_DIR: '/xxx/output'
