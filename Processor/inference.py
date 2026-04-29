@@ -26,7 +26,7 @@ class inference(object):
                     target_view = target_view.to(device)
                 else:
                     target_view = None
-                feat = model(img, cam_label=camids, view_label=target_view)
+                feat = model(img, cam_label=None, view_label=None)
                 self.evaluator.update((feat, vid, camid, img_paths))
 
         for n_iter, (img, vid, camid, camids, target_view, img_paths) in enumerate(gallery_loader):
@@ -40,7 +40,7 @@ class inference(object):
                     target_view = target_view.to(device)
                 else:
                     target_view = None
-                feat = model(img, cam_label=camids, view_label=target_view)
+                feat = model(img, cam_label=None, view_label=None)
                 self.evaluator.update((feat, vid, camid, img_paths))
         cmc, mAP, _, _, _, _, _, bad_retrieve_results, mAPs = self.evaluator.compute()
         if epoch != 0:

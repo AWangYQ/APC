@@ -1,6 +1,6 @@
 MODEL:
   PRETRAIN_CHOICE: 'imagenet'
-  PRETRAIN_PATH: '/xxx/pretrain/ViT-B-16.pt'
+  PRETRAIN_PATH: '/liqinsi/wyq/pretrain/ViT-B-16.pt'
   METRIC_LOSS_TYPE: 'triplet'
   IF_LABELSMOOTH: 'off'
   IF_WITH_CENTER: 'no'
@@ -11,6 +11,7 @@ MODEL:
   STRIDE_SIZE: [12, 12]
   SIE_CAMERA: True
   SIE_COE: 3.0
+  INTERVAL: 50
 
 INPUT:
   SIZE_TRAIN: [256, 128]
@@ -44,7 +45,7 @@ TEST:
   EVAL: True
   IMS_PER_BATCH: 64
   RE_RANKING: False
-  WEIGHT: '/xxx/q_model_120.pth'
+  WEIGHT: '/liqinsi/wyq/q_model_120.pth'
   NECK_FEAT: 'before'
   FEAT_NORM: 'yes'
   REPORT_SAMPLE: True
@@ -52,7 +53,8 @@ TEST:
 DATASETS:
    TYPE: 'image'
    NAMES: ('msmt17')
-   TARGET_NAMES: ('msmt17')
-   ROOT_DIR: ('/xxx/datasets/')
-OUTPUT_DIR: '/xxx/output/APC/'
+   TARGET_NAMES: ('market1501')
+   ROOT_DIR: ('/liqinsi/wyq/datasets/')
+   
+OUTPUT_DIR: '/liqinsi/wyq/output/APC/'
 

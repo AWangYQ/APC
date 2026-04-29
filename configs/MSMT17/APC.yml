@@ -1,6 +1,6 @@
 MODEL:
   PRETRAIN_CHOICE: 'imagenet'
-  PRETRAIN_PATH: '/xxx/pretrain/ViT-B-16.pt'
+  PRETRAIN_PATH: '/liqinsi/wyq/pretrain/ViT-B-16.pt'
   METRIC_LOSS_TYPE: 'triplet'
   IF_LABELSMOOTH: 'off'
   IF_WITH_CENTER: 'no'
@@ -33,7 +33,7 @@ SOLVER:
   IMS_PER_BATCH: 64
   WARMUP_METHOD: 'linear'
   LARGE_FC_LR: False
-  CHECKPOINT_PERIOD: 120
+  CHECKPOINT_PERIOD: 60
   LOG_PERIOD: 50
   EVAL_PERIOD: 20
   WEIGHT_DECAY:  1e-4
@@ -53,6 +53,7 @@ DATASETS:
    TYPE: 'image'
    NAMES: ('msmt17')
    TARGET_NAMES: ('msmt17')
-   ROOT_DIR: ('/xxx/datasets/')
-OUTPUT_DIR: '/xxx/output/APC/'
+   ROOT_DIR: ('/liqinsi/wyq/datasets/')
+
+OUTPUT_DIR: '/liqinsi/wyq/output/APC/'
 

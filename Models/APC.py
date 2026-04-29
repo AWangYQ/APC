@@ -134,7 +134,7 @@ class APC(nn.Module):
 
     def load_clip_to_cpu(self, backbone_name, h_resolution, w_resolution, vision_stride_size):
         url = clip._MODELS[backbone_name]
-        model_path = '/xxx/pretrain/ViT-B-16.pt'
+        model_path = '/liqinsi/wyq/pretrain/ViT-B-16.pt'
         try:
             # loading JIT archive
             model = torch.jit.load(model_path, map_location="cpu").eval()

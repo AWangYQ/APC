@@ -30,182 +30,6 @@ def cosine_scheduler(base_value, final_value, epochs, niter_per_ep, warmup_epoch
     assert len(schedule) == epochs * niter_per_ep
     return schedule
 
-attribute_list = [
-    # gender
-    "male",
-    "female",
-    
-    # age
-    "child",
-    "teenager",
-    "adult",
-    "elderly person",
-    
-    # pants
-    "person with trousers",
-    "person with pants",
-    "person with jeans",
-    "person with shorts",
-    "person with skirt",
-    "person with leggings",
-    "person with sweatpants",
-    "person with cargo pants",
-    "person with chinos",
-    "person with joggers",
-    "person with culottes",
-    "person with slacks",
-    
-    # trousers
-    "person with Sweater",
-    "person with Hoodie",
-    "person with Jacket",
-    "person with Coat",
-    "person with Blazer",
-    "person with Cardigan",
-    "person with Peacoat",
-    "person with Windbreaker",
-    "person with Puffer jacket",
-    
-    # bag
-    "person with Handbag",
-    "person with Shoulder Bag",
-    "person with Crossbody Bag",
-    "person with Backpack",
-    "person with Clutch",
-    "person with Briefcase",
-    "person with Bucket Bag",
-    "person with Tote Bag",
-    "person with Messenger Bag",
-    "person with Cosmetic Bag",
-    "person with Luggage",
-    # hat
-    "person with Sun Hat",
-    "person with Flat Cap",
-    "person with Fedora",
-    "person with Bucket Hat",
-    "person with Baseball Cap",
-    
-    # hair
-    "person with short hair",
-    "person with medium hair",
-    "person with long hair",
-    "person with straight hair",
-    "person with wavy hair",
-    "person with curly hair",
-    "person with coily hair",
-    
-    # earphone
-    "person wearing a pair of in-ear earphones with sleek cables",
-    "person wearing a pair of over-ear headphones with large, cushioned ear cups",
-    
-    
-    # glasses
-    "person wearing a pair of myopia glasses with sleek, black frames",
-    "person wearing a pair of hyperopia glasses with elegant, gold-rimmed frames",
-    "person wearing a pair of presbyopia glasses with stylish, tortoiseshell frames",
-    "person wearing a pair of astigmatism glasses with modern, rectangular frames",
-    "person wearing a pair of stylish sunglasses with dark, polarized lenses and aviator-style metal frames",
-    
-    
-    # body
-    "person with an hourglass figure, featuring a well-defined waist and balanced proportions between the bust and hips",
-    "person with an apple-shaped body, characterized by a fuller midsection and slimmer legs",
-    "person with a pear-shaped body, showcasing wider hips and thighs with a narrower upper body",
-    "person with a rectangular body shape, where the bust, waist, and hips are relatively similar in width, creating a straight silhouette",
-    "person with an inverted triangle body shape, marked by broad shoulders and a narrower waist and hips",
-    "slim person, with a lean physique and minimal body fat",
-    "person with an average build, featuring balanced proportions and a moderate amount of body fat",
-    "curvy person, with pronounced curves and a fuller figure",
-    "tall person, with long limbs and an elongated frame",
-    "petite person, with a shorter stature and smaller frame",
-    "muscular person, showcasing well-defined muscles and a strong physique",
-    "person with a softer body type, characterized by less muscle definition and a more rounded appearance",
-    "person with evenly distributed body fat, creating a balanced and proportionate look",
-    "photo of a person with localized fat distribution, where certain areas like the abdomen, hips, or thighs are more pronouncedq"
-]
-
-imagenet_templates = [
-   # 'a bad photo of a {}.',
-   # 'a photo of many {}.',
-   # 'a sculpture of a {}.',
-   # 'a photo of the hard to see {}.',
-   # 'a low resolution photo of the {}.',
-   # 'a rendering of a {}.',
-   # 'graffiti of a {}.',
-   # 'a bad photo of the {}.',
-   # 'a cropped photo of the {}.',
-   # 'a tattoo of a {}.',
-   # 'the embroidered {}.',
-   # 'a photo of a hard to see {}.',
-   # 'a bright photo of a {}.',
-   # 'a photo of a clean {}.',
-   # 'a photo of a dirty {}.',
-   # 'a dark photo of the {}.',
-   # 'a drawing of a {}.',
-   # 'a photo of my {}.',
-   # 'the plastic {}.',
-   # 'a photo of the cool {}.',
-   # 'a close-up photo of a {}.',
-   # 'a black and white photo of the {}.',
-   # 'a painting of the {}.',
-   # 'a painting of a {}.',
-   # 'a pixelated photo of the {}.',
-   # 'a sculpture of the {}.',
-   # 'a bright photo of the {}.',
-   # 'a cropped photo of a {}.',
-   # 'a plastic {}.',
-   # 'a photo of the dirty {}.',
-   # 'a jpeg corrupted photo of a {}.',
-   # 'a blurry photo of the {}.',
-   # 'a photo of the {}.',
-   # 'a good photo of the {}.',
-   # 'a rendering of the {}.',
-   # 'a {} in a video game.',
-   # 'a photo of one {}.',
-   # 'a doodle of a {}.',
-   # 'a close-up photo of the {}.',
-   'a photo of a {}.',
-   # 'the origami {}.',
-   # 'the {} in a video game.',
-   # 'a sketch of a {}.',
-   # 'a doodle of the {}.',
-   # 'a origami {}.',
-   # 'a low resolution photo of a {}.',
-   # 'the toy {}.',
-   # 'a rendition of the {}.',
-   # 'a photo of the clean {}.',
-   # 'a photo of a large {}.',
-   # 'a rendition of a {}.',
-   # 'a photo of a nice {}.',
-   # 'a photo of a weird {}.',
-   # 'a blurry photo of a {}.',
-   # 'a cartoon {}.',
-   # 'art of a {}.',
-   # 'a sketch of the {}.',
-   # 'a embroidered {}.',
-   # 'a pixelated photo of a {}.',
-   # 'itap of the {}.',
-   # 'a jpeg corrupted photo of the {}.',
-   # 'a good photo of a {}.',
-   # 'a plushie {}.',
-   # 'a photo of the nice {}.',
-   # 'a photo of the small {}.',
-   # 'a photo of the weird {}.',
-   # 'the cartoon {}.',
-   # 'art of the {}.',
-   # 'a drawing of the {}.',
-   # 'a photo of the large {}.',
-   # 'a black and white photo of a {}.',
-   # 'the plushie {}.',
-   # 'a dark photo of a {}.',
-   # 'itap of a {}.',
-   # 'graffiti of the {}.',
-   # 'a toy {}.',
-   # 'itap of my {}.',
-   # 'a photo of a cool {}.',
-   # 'a photo of a small {}.',
-   # 'a tattoo of the {}.',
-]
 
 class SupConLoss(nn.Module):
     def __init__(self, device):
@@ -247,10 +71,10 @@ def do_train(cfg,
              loss_function,
              num_query, local_rank, train_query_set):
 
-    #model.load_param('/home/ubuntun/wyq/output/2024-11-05_17-07-53/q_model_80.pth')
-    #param_dict = torch.load('/home/ubuntun/wyq/output/2024-11-05_17-07-53/prompt_learner_80.pth')
-    #for i in param_dict:
-    #    prompt_learner.state_dict()[i].copy_(param_dict[i])
+    # q_model.load_param('/liqinsi/wyq/output/APC/2026-04-27_02-45-42/q_model_40.pth')
+    # param_dict = torch.load('/home/ubuntun/wyq/output/2024-11-05_17-07-53/prompt_learner_80.pth')
+    # for i in param_dict:
+       # prompt_learner.state_dict()[i].copy_(param_dict[i])
 
     log_period = cfg.SOLVER.LOG_PERIOD  # 每多少次迭代输出一次日志
     checkpoint_period = cfg.SOLVER.CHECKPOINT_PERIOD   # 每多少次迭代保存模型
@@ -352,6 +176,7 @@ def do_train(cfg,
                 logger.info("Epoch[{}] Iteration[{}/{}] Loss: {:.3f}, align loss: {:.3f}, Acc0: {:.3f}, Acc: {:.3f}, Base Lr: {:.2e}"
                             .format(epoch, (n_iter + 1), len(train_loader),
                                     loss_meter.avg, align_loss_meter.avg, acc_meter0.avg, acc_meter.avg, scheduler._get_lr(epoch)[0]))
+            if (n_iter + 1) % cfg.MODEL.INTERVAL == 0:
                 with torch.no_grad():
                     prompt_text_feat = model.text_encoder(model.promptlearner(), model.promptlearner.tokenized_prompts)
                 q_model.eval()
@@ -391,7 +216,7 @@ def do_train(cfg,
             torch.save(q_model.state_dict(), os.path.join(cfg.OUTPUT_DIR, 'q_model' + '_{}.pth'.format(epoch)))
 
         # 测试模型
-        if epoch % eval_period == 0 or epoch == 1 or (epoch <= 80 and epoch >=60):
+        if epoch % eval_period == 0 or epoch == 1 or (epoch <= 60 and epoch >=40):
             logger.info("===============================")
             logger.info("Testing the query model ......")
             eval.calcultion(cfg, query_loader, gallery_loader, q_model, device, epoch)

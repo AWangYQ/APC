@@ -39,6 +39,10 @@ _C.MODEL.ID_LOSS_TYPE = 'softmax'
 _C.MODEL.ID_LOSS_WEIGHT = 1.0
 _C.MODEL.TRIPLET_LOSS_WEIGHT = 1.0
 _C.MODEL.I2T_LOSS_WEIGHT = 1.0
+_C.MODEL.LOGITS_FILE1 = ''
+_C.MODEL.LOGITS_FILE2 = ''
+_C.MODEL.NORM = 'softmax'
+_C.MODEL.INTERVAL = 50
 
 _C.MODEL.METRIC_LOSS_TYPE = 'triplet'
 # If train with multi-gpu ddp mode, options: 'True', 'False'
@@ -89,6 +93,7 @@ _C.DATASETS = CN()
 _C.DATASETS.TYPE = 'image'
 # List of the dataset names for training, as present in paths_catalog.py
 _C.DATASETS.NAMES = ('market1501')
+_C.DATASETS.TARGET_NAMES = ('MSMT17')
 # Root directory where datasets should be used (and downloaded if not found)
 _C.DATASETS.ROOT_DIR = ('../data')
 _C.DATASETS.SEQ_LEN = 8
@@ -121,6 +126,8 @@ _C.SOLVER.OPTIMIZER_NAME = "Adam"
 _C.SOLVER.MAX_EPOCHS = 100
 # Base learning rate
 _C.SOLVER.BASE_LR = 3e-4
+# Base prompt learning rate
+_C.SOLVER.PROMPT_BASE_LR = 0.00035
 # Whether using larger learning rate for fc layer
 _C.SOLVER.LARGE_FC_LR = False
 # Factor of learning bias
@@ -180,7 +187,7 @@ _C.TEST.IMS_PER_BATCH = 128
 # If test with re-ranking, options: 'True','False'
 _C.TEST.RE_RANKING = False
 # Path to trained model
-_C.TEST.WEIGHT = []
+_C.TEST.WEIGHT = ""
 # Which feature of BNNeck to be used for test, before or after BNNneck, options: 'before' or 'after'
 _C.TEST.NECK_FEAT = 'after'
 # Whether feature is nomalized before test, if yes, it is equivalent to cosine distance

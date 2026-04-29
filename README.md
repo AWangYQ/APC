@@ -59,7 +59,7 @@ Object ReID in real-world applications often suffers from domain variations, whe
 
 ### 1) Train
 
-```python
+```
 bash scripts.sh
 ```
 
@@ -68,6 +68,16 @@ bash scripts.sh
 ```
 python test.py
 ```
+
+### 3) Checkpoint
+For convenient reproduction, we release the logs and pretrained checkpoints of APC on the synthetic-to-real object ReID settings, including **MS2MA** and **MA2MS**.
+
+| Source → Target | Training Log | Pretrained Checkpoint |
+| :---: | :---: | :---: |
+| MS → MA | [Download](https://pan.baidu.com/s/18YLKBDhrUzGj5dhpbrZiLg?pwd=1972) | [Download](https://pan.baidu.com/s/1DK1lINpQt9k_fXgW573A0g?pwd=57jg) |
+| MA → MS | [Download](https://pan.baidu.com/s/1gtowAQtWQzO35BCm640uRw?pwd=sqmc) | [Download](https://pan.baidu.com/s/16i-WsyxMN07xCDrMP_p_JQ?pwd=dh23) |
+
+Please download the checkpoint and update the checkpoint path in `test.py` before evaluation.
 
 # Citation
 

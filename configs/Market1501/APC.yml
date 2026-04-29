@@ -4,13 +4,16 @@ MODEL:
   METRIC_LOSS_TYPE: 'triplet'
   IF_LABELSMOOTH: 'off'
   IF_WITH_CENTER: 'no'
-  NAME: 'clip_adapter'
+  NAME: 'APC'
   NO_MARGIN: True
   DEVICE_ID: ('0')
   TRANSFORMER_TYPE: 'vit_base_patch16_224_TransReID'
   STRIDE_SIZE: [16, 16]
   SIE_CAMERA: True
   SIE_COE: 3.0
+  ID_LOSS_WEIGHT: 0.8
+  INTERVAL: 20
+
 
 INPUT:
   SIZE_TRAIN: [256, 128]
@@ -28,8 +31,8 @@ DATALOADER:
 
 SOLVER:
   OPTIMIZER_NAME: "Adam"
-  BASE_LR: 0.000005
-  MAX_EPOCHS: 120
+  BASE_LR: 0.0000075
+  MAX_EPOCHS: 60
   IMS_PER_BATCH: 64
   WARMUP_METHOD: 'linear'
   LARGE_FC_LR: False
@@ -44,7 +47,7 @@ TEST:
   EVAL: True
   IMS_PER_BATCH: 64
   RE_RANKING: False
-  WEIGHT: '/root/autodl-tmp/output/2023-11-16_17-58-50/clip_adapter_120.pth'
+  WEIGHT: ''
   NECK_FEAT: 'before'
   FEAT_NORM: 'yes'
   REPORT_SAMPLE: True

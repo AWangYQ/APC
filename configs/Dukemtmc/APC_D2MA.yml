@@ -4,13 +4,14 @@ MODEL:
   METRIC_LOSS_TYPE: 'triplet'
   IF_LABELSMOOTH: 'off'
   IF_WITH_CENTER: 'no'
-  NAME: 'clip_adapter'
+  NAME: 'APC'
   NO_MARGIN: True
   DEVICE_ID: ('0')
   TRANSFORMER_TYPE: 'vit_base_patch16_224_TransReID'
   STRIDE_SIZE: [12, 12]
   SIE_CAMERA: True
   SIE_COE: 3.0
+  INTERVAL: 20
 
 INPUT:
   SIZE_TRAIN: [256, 128]
